@@ -1,29 +1,41 @@
-import React from "react";
+import React, { useContext } from "react";
+import { StyleSheet, View } from "react-native";
+import { AuthForm, NavLink } from "../components";
+import { Context as AuthContext } from "../contexts/auth.context";
 
-import { StyleSheet, Text, View, Button } from "react-native";
+const SignUp = () => {
+  const { state, signup } = useContext(AuthContext);
 
-const Signup = ({ navigation: { navigate } }) => {
-  const {} = styles;
+  const { container } = styles;
 
   return (
-    <>
-      <Text>Signup</Text>
-      <Button
-        title="Go to SignIn"
-        onPress={() => {
-          navigate("SignIn");
-        }}
+    <View style={container}>
+      <AuthForm
+        headerText="Sign Up for Path Tracker"
+        errorMessage={state.errorMessage}
+        submitButtonText="Sign Up"
+        onSubmit={signup}
       />
-      <Button
-        title="Go to main flow"
-        onPress={() => {
-          navigate("mainFlow");
-        }}
+      <NavLink
+        text="Already have an account? sign in here"
+        routeName="SignIn"
       />
-    </>
+    </View>
   );
 };
 
-const styles = StyleSheet.create({});
+SignUp.navigationOptions = () => {
+  return {
+    header: () => false,
+  };
+};
 
-export default Signup;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    marginBottom: 100,
+  },
+});
+
+export default SignUp;
