@@ -6,6 +6,7 @@ import { setNavigator } from "./src/navigationRef";
 
 import {
   Account,
+  ResolveAuth,
   SignIn,
   SignUp,
   TrackCreate,
@@ -15,9 +16,10 @@ import {
 import { Provider as AuthProvider } from "./src/contexts/auth.context";
 
 const switchNavigator = createSwitchNavigator({
+  ResolveAuth: ResolveAuth,
   loginFlow: createStackNavigator({
-    SignUp: SignUp,
     SignIn: SignIn,
+    SignUp: SignUp,
   }),
   mainFlow: createBottomTabNavigator({
     trackListFlow: createStackNavigator({

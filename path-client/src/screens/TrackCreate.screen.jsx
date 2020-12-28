@@ -1,14 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
+import { Text } from "react-native-elements";
+import { SafeAreaView } from "react-navigation";
+import { Map } from "../components";
+import { requestPermissionsAsync } from "expo-location";
 
 const TrackCreate = () => {
+  const [err, setErr] = useState(null);
   const {} = styles;
 
+  const startWatching = async () => {
+    try {
+      const { granted } = await requestPermissionsAsync();
+      if (!granted) {
+        throw new Error("Location permission not granted");
+      }
+    } catch (error) {
+      setErr(error);
+    }
+  };
+
+  useEffect(() => {
+    startWatching();
+  }, []);
+
   return (
-    <View>
-      <Text>TrackCreate</Text>
-    </View>
+    <SafeAreaView forceInset={{ top: "always" }}>
+      <Text h3>TrackCreate</Text>
+      <Map />
+      {err ? <Text>Please enable location services</Text> : null}
+    </SafeAreaView>
   );
 };
 
