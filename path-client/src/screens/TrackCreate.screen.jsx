@@ -1,23 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useCallback } from "react";
 
 import { StyleSheet } from "react-native";
 import { Text } from "react-native-elements";
 import { SafeAreaView, withNavigationFocus } from "react-navigation";
-import { Map } from "../components";
+import { Map, TrackForm } from "../components";
 import "../_mockLocation";
 import { Context as LocationContext } from "../contexts/location.context";
 import useLocation from "../hooks/useLocation";
 
 const TrackCreate = ({ isFocused }) => {
   const {} = styles;
-  const { addLocation } = useContext(LocationContext);
-  const [err] = useLocation(isFocused, addLocation);
+  const { addLocation, state } = useContext(LocationContext);
+  const callback = useCallback(
+    (location) => addLocation(location, state.recording),
+    [state.recording]
+  );
+  const [err] = useLocation(isFocused, callback);
 
   return (
     <SafeAreaView forceInset={{ top: "always" }}>
       <Text h3>TrackCreate</Text>
       <Map />
-      {/* <NavigationEvents onWillBlur={() => console.log("im closing")} /> */}
+      <TrackForm />
       {err ? <Text>Please enable location services</Text> : null}
     </SafeAreaView>
   );
