@@ -6,7 +6,7 @@ import { Context as LocationContext } from "../contexts/location.context";
 
 const Map = () => {
   const {
-    state: { currentLocation },
+    state: { currentLocation, locations },
   } = useContext(LocationContext);
   const { map } = styles;
 
@@ -30,13 +30,14 @@ const Map = () => {
         strokeColor="rgba(158,158,255,1.0)"
         fillColor="rgba(158,158,255,0.3)"
       />
+      <Polyline coordinates={locations.map((location) => location.coords)} />
     </MapView>
   );
 };
 
 const styles = StyleSheet.create({
   map: {
-    height: 300,
+    height: 250,
   },
 });
 
