@@ -3,6 +3,7 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { setNavigator } from "./src/navigationRef";
+import { FontAwesome } from "@expo/vector-icons";
 
 import {
   Account,
@@ -17,6 +18,16 @@ import { Provider as AuthProvider } from "./src/contexts/auth.context";
 import { Provider as LocationProvider } from "./src/contexts/location.context";
 import { Provider as TrackProvider } from "./src/contexts/track.context";
 
+const trackListFlow = createStackNavigator({
+  TrackList: TrackList,
+  TrackDetail: TrackDetail,
+});
+
+trackListFlow.navigationOptions = {
+  title: "Tracks",
+  tabBarIcon: <FontAwesome name="th-list" size={20} />,
+};
+
 const switchNavigator = createSwitchNavigator({
   ResolveAuth: ResolveAuth,
   loginFlow: createStackNavigator({
@@ -24,10 +35,7 @@ const switchNavigator = createSwitchNavigator({
     SignUp: SignUp,
   }),
   mainFlow: createBottomTabNavigator({
-    trackListFlow: createStackNavigator({
-      TrackList: TrackList,
-      TrackDetail: TrackDetail,
-    }),
+    trackListFlow,
     TrackCreate: TrackCreate,
     Account: Account,
   }),
